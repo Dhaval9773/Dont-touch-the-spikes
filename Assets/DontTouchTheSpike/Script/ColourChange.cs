@@ -35,7 +35,7 @@ public class ColourChange : MonoBehaviour
             colour();
             limit += 10;
         }
-        if (i>8)
+        if (i>=8)
         {
             i = 0;
         }

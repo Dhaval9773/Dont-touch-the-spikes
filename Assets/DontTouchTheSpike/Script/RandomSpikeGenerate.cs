@@ -32,7 +32,7 @@ public class RandomSpikeGenerate : MonoBehaviour
     public void RightSpike()
     {
         score++;
-        while (i<((score/15)+2))
+        while (i<((score/20)+2))
         {
             random = Random.Range(0, 10); 
             rightspikes.transform.GetChild(random).localPosition = new Vector3(rightspikes.transform.GetChild(random).localPosition.x,0.408f,0);
@@ -47,7 +47,7 @@ public class RandomSpikeGenerate : MonoBehaviour
     public void LeftSpike()
     {
         score++;
-        while (i<((score/15)+2))
+        while (i<((score/20)+2))
         {
             random = Random.Range(0, 10); 
             leftspikes.transform.GetChild(random).localPosition = new Vector3(leftspikes.transform.GetChild(random).localPosition.x,0.43f,0);

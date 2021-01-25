@@ -9,6 +9,7 @@ public class Playfabcontroler : MonoBehaviour
     private string username;
     private string password;
     private string email;
+    public GameObject loginpanel;
     public void Start()
     {
         //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
@@ -16,18 +17,26 @@ public class Playfabcontroler : MonoBehaviour
         {
             PlayFabSettings.TitleId = "4857B"; // Please change this value to your own titleId from PlayFab Game Manager
         }
-        var request = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
-        PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
+        if(PlayerPrefs.HasKey("Email"))
+        {
+            email=PlayerPrefs.GetString("Email");
+            password= PlayerPrefs.GetString("Password");
+            var request = new LoginWithEmailAddressRequest { Email = email, Password = password };
+            PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
+        }
+        
     }
     private void OnLoginSuccess(LoginResult result)
     {
         PlayerPrefs.SetString("Email",email);
         PlayerPrefs.SetString("Password", password);
+        loginpanel.SetActive(false);
     }
-    private void onRegisterSuccess(RegisterPlayFabUserRequest result)
+    private void onRegisterSuccess(RegisterPlayFabUserResult result)
     {
         PlayerPrefs.SetString("Email", email);
         PlayerPrefs.SetString("Password", password);
+        loginpanel.SetActive(false);
     }
     private void onRegisterfail(PlayFabError error)
     {

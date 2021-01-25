@@ -9,7 +9,8 @@ public class Playfabcontroler : MonoBehaviour
     private string username;
     private string password;
     private string email;
-    public GameObject loginpanel;
+    public GameObject loginbutton;
+
     public void Start()
     {
         //loginpanel.SetActive(false);
@@ -25,30 +26,33 @@ public class Playfabcontroler : MonoBehaviour
             var request = new LoginWithEmailAddressRequest { Email = email, Password = password };
             PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
         }
-        
+        PlayerPrefs.DeleteAll();
     }
     private void OnLoginSuccess(LoginResult result)
     {
         Debug.Log("login success");
         PlayerPrefs.SetString("Email",email);
         PlayerPrefs.SetString("Password", password);
-        loginpanel.SetActive(false);
+        loginbutton.SetActive(false);
         Debug.Log("login success");
     }
     private void onRegisterSuccess(RegisterPlayFabUserResult result)
     {
-        Debug.Log("register success");
+        Debug.Log("on register success");
         PlayerPrefs.SetString("Email", email);
         PlayerPrefs.SetString("Password", password);
-        loginpanel.SetActive(false);
+        loginbutton.SetActive(false);
         Debug.Log("register success");
     }
     private void onRegisterfail(PlayFabError error)
     {
-
+        Debug.Log(error);
     }
     private void OnLoginFailure(PlayFabError error)
     {
+        Debug.Log("email"+email);
+        Debug.Log("password"+password);
+        Debug.Log("usename");
         var registerrequest = new RegisterPlayFabUserRequest { Email = email, Password = password, Username=username };
         PlayFabClientAPI.RegisterPlayFabUser(registerrequest,onRegisterSuccess,onRegisterfail);
     }
@@ -69,6 +73,6 @@ public class Playfabcontroler : MonoBehaviour
         var request = new LoginWithEmailAddressRequest { Email=email,Password=password};
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
         Debug.Log("on login");
-        Debug.Log(request);
+        Debug.Log(request.Email);
     }
 }

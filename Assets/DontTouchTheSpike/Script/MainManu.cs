@@ -7,13 +7,13 @@ using UnityEngine.UI;
 
 public class MainManu : MonoBehaviour
 {
-    
     public AudioSource audioplay;
-
+    public GameObject mainmanu;
     public GameObject playbutton;
     // Start is called before the first frame update
     private void Start()
     {
+        mainmanu.SetActive(true);
         playbutton.GetComponent<Button>().enabled = true;
     }
 

@@ -12,6 +12,7 @@ public class Playfabcontroler : MonoBehaviour
     public GameObject loginpanel;
     public void Start()
     {
+        //loginpanel.SetActive(false);
         //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId))
         {
@@ -28,15 +29,19 @@ public class Playfabcontroler : MonoBehaviour
     }
     private void OnLoginSuccess(LoginResult result)
     {
+        Debug.Log("login success");
         PlayerPrefs.SetString("Email",email);
         PlayerPrefs.SetString("Password", password);
         loginpanel.SetActive(false);
+        Debug.Log("login success");
     }
     private void onRegisterSuccess(RegisterPlayFabUserResult result)
     {
+        Debug.Log("register success");
         PlayerPrefs.SetString("Email", email);
         PlayerPrefs.SetString("Password", password);
         loginpanel.SetActive(false);
+        Debug.Log("register success");
     }
     private void onRegisterfail(PlayFabError error)
     {
@@ -63,5 +68,7 @@ public class Playfabcontroler : MonoBehaviour
     {
         var request = new LoginWithEmailAddressRequest { Email=email,Password=password};
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
+        Debug.Log("on login");
+        Debug.Log(request);
     }
 }

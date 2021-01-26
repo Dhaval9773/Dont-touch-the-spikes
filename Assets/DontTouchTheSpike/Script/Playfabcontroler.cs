@@ -36,6 +36,7 @@ public class Playfabcontroler : MonoBehaviour
         }
         
     }
+    #region LOGIN
     private void OnAndroidLoginSuccess(LoginResult result)
     {
         Debug.Log("login success");
@@ -98,4 +99,5 @@ public class Playfabcontroler : MonoBehaviour
         string deviceid = SystemInfo.deviceUniqueIdentifier;
         return deviceid;
     }
+#endregion
 }

@@ -19,14 +19,32 @@ public class Playfabcontroler : MonoBehaviour
         {
             PlayFabSettings.TitleId = "4857B"; // Please change this value to your own titleId from PlayFab Game Manager
         }
-        if(PlayerPrefs.HasKey("Email"))
+        //PlayerPrefs.DeleteAll();
+        if (PlayerPrefs.HasKey("Email"))
         {
             email=PlayerPrefs.GetString("Email");
             password= PlayerPrefs.GetString("Password");
             var request = new LoginWithEmailAddressRequest { Email = email, Password = password };
             PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
         }
-        PlayerPrefs.DeleteAll();
+        else
+        {
+#if UNITY_ANDROID
+            var requestandroid = new LoginWithAndroidDeviceIDRequest { AndroidDeviceId = Returnmobileid(), CreateAccount = true };
+            PlayFabClientAPI = LoginWithAndroidDeviceID(requestandroid,OnAndroidLoginSuccess,OnAndroidLoginFailure);
+#endif
+        }
+        
+    }
+    private void OnAndroidLoginSuccess(LoginResult result)
+    {
+        Debug.Log("login success");
+       
+        Debug.Log("login success");
+    }
+    private void OnAndroidLoginFailure(PlayFabError error)
+    {
+        Debug.Log(error.GenerateErrorReport());
     }
     private void OnLoginSuccess(LoginResult result)
     {
@@ -74,5 +92,10 @@ public class Playfabcontroler : MonoBehaviour
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
         Debug.Log("on login");
         Debug.Log(request.Email);
+    }
+    public static string Returnmobileid()
+    {
+        string deviceid = SystemInfo.deviceUniqueIdentifier;
+        return deviceid;
     }
 }

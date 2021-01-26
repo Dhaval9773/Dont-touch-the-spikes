@@ -99,5 +99,11 @@ public class Playfabcontroler : MonoBehaviour
         string deviceid = SystemInfo.deviceUniqueIdentifier;
         return deviceid;
     }
-#endregion
+    #endregion
+
+    #region STASTICS
+
+
+
+    #endregion
 }

@@ -31,7 +31,7 @@ public class Playfabcontroler : MonoBehaviour
         {
 #if UNITY_ANDROID
             var requestandroid = new LoginWithAndroidDeviceIDRequest { AndroidDeviceId = Returnmobileid(), CreateAccount = true };
-            PlayFabClientAPI = LoginWithAndroidDeviceID(requestandroid,OnAndroidLoginSuccess,OnAndroidLoginFailure);
+            PlayFabClientAPI.LoginWithAndroidDeviceID(requestandroid,OnAndroidLoginSuccess,OnAndroidLoginFailure);
 #endif
         }
         

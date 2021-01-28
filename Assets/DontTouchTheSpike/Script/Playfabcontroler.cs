@@ -4,6 +4,7 @@ using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
 
+
 public class Playfabcontroler : MonoBehaviour
 {
     private string username;
@@ -103,7 +104,32 @@ public class Playfabcontroler : MonoBehaviour
 
     #region STASTICS
 
+    public void SendLeaderboard(int score)
+    {
+        var request = new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate>
+            {
+                new StatisticUpdate
+                {
+                    StatisticName="PlayerScore",
+                    Value=score
+                }
+            }
+        };
+        PlayFabClientAPI.UpdatePlayerStatistics(request, onleaderboardupdate, onerror);
+       
+    }
 
+    public void onleaderboardupdate(UpdatePlayerStatisticsResult result)
+    {
+        Debug.Log("success");
+    }
 
+    public void onerror(PlayFabError error)
+    {
+        Debug.LogWarning("Something went wrong with your API call. Here's some debug information:");
+        Debug.LogError(error.GenerateErrorReport());
+    }
     #endregion
 }

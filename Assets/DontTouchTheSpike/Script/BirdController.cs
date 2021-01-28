@@ -23,6 +23,7 @@ public class BirdController : MonoBehaviour
     private float speed = 3.5f;
     private ColourChange cc;
     private int limit = 10;
+    private Playfabcontroler pc;
     
     void Start()
     {
@@ -35,6 +36,7 @@ public class BirdController : MonoBehaviour
         bird.transform.position=new Vector3(0.03f,0.33f,-6.900815f);
         rb = GetComponent<Rigidbody2D>();
         rpg = FindObjectOfType<RandomSpikeGenerate>();
+        pc= FindObjectOfType<Playfabcontroler>();
         eg = FindObjectOfType<EggGenerate>();
         direction = false;
         bird.GetComponent<SpriteRenderer>().color=new Color(255,255,255,255);
@@ -110,6 +112,7 @@ public class BirdController : MonoBehaviour
             rb.velocity=new Vector2(5,5);
             rb.rotation += 2;
             gameover = false;
+            //pc.SendLeaderboard(rpg.score);
             Invoke("gameisover",1.5f);
         }
     }
@@ -121,7 +124,6 @@ public class BirdController : MonoBehaviour
             eggsound.Play();
             Destroy(eg.randomegg);
             eg.eggscore.SetActive(true); 
-            
             eg.Invoke("spawnegg",0.5f);
             rpg.score += 5;
         }

@@ -14,7 +14,20 @@ public class Playfabcontroler : MonoBehaviour
     public GameObject loginbutton;
 
     
+    public static Playfabcontroler instance { get;set; }
 
+    public void Awake()
+    {
+        if (instance==null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
     public void Start()
     {
         //loginpanel.SetActive(false);
@@ -43,8 +56,6 @@ public class Playfabcontroler : MonoBehaviour
     #region LOGIN
     private void OnAndroidLoginSuccess(LoginResult result)
     {
-        Debug.Log("login success");
-       
         Debug.Log("login success");
     }
     private void OnAndroidLoginFailure(PlayFabError error)
@@ -133,6 +144,17 @@ public class Playfabcontroler : MonoBehaviour
     {
         Debug.LogWarning("Something went wrong with your API call. Here's some debug information:");
         Debug.LogError(error.GenerateErrorReport());
+    }
+
+    public void GetLeaderboard()
+    {
+        var request = new GetLeaderboardRequest
+        {
+            StatisticName = "PlayerScore",
+            StartPosition = 0,
+            MaxResultsCount = 10,
+
+        };
     }
     #endregion
 }

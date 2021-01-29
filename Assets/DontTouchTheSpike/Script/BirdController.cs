@@ -23,21 +23,8 @@ public class BirdController : MonoBehaviour
     private float speed = 3.5f;
     private ColourChange cc;
     private int limit = 10;
-    private Playfabcontroler pc;
-    private static Playfabcontroler instance { get;set; }
-
-    public void Awake()
-    {
-        if (instance==null)
-        {
-            instance = this.pc;
-            DontDestroyOnLoad(pc);
-        }
-        else
-        {
-            Destroy(pc);
-        }
-    }
+    //private Playfabcontroler pc;
+    
     void Start()
     {
         ps.GetComponent<ParticleSystem>().Stop();
@@ -49,7 +36,7 @@ public class BirdController : MonoBehaviour
         bird.transform.position=new Vector3(0.03f,0.33f,-6.900815f);
         rb = GetComponent<Rigidbody2D>();
         rpg = FindObjectOfType<RandomSpikeGenerate>();
-        pc= FindObjectOfType<Playfabcontroler>();
+        //pc= FindObjectOfType<Playfabcontroler>();
         eg = FindObjectOfType<EggGenerate>();
         direction = false;
         bird.GetComponent<SpriteRenderer>().color=new Color(255,255,255,255);
@@ -146,6 +133,6 @@ public class BirdController : MonoBehaviour
     {
         bird.SetActive(false);
         gameoverpanel.SetActive(true);
-        pc.SendLeaderboard(rpg.score);
+        Playfabcontroler.instance.SendLeaderboard(rpg.score);
     }
 }

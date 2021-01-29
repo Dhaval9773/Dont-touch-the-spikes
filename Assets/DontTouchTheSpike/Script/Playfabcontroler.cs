@@ -152,9 +152,17 @@ public class Playfabcontroler : MonoBehaviour
         {
             StatisticName = "PlayerScore",
             StartPosition = 0,
-            MaxResultsCount = 10,
-
+            MaxResultsCount = 10
         };
+        PlayFabClientAPI.GetLeaderboard(request,onLeaderboardget,onerror);
+    }
+
+    public void onLeaderboardget(GetLeaderboardResult result)
+    {
+        foreach (var item in result.Leaderboard)
+        {
+            Debug.Log(item.Position+""+item.PlayFabId+""+item.StatValue);
+        }
     }
     #endregion
 }

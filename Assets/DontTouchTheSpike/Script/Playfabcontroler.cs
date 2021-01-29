@@ -31,7 +31,7 @@ public class Playfabcontroler : MonoBehaviour
         //     Destroy(this.gameObject);
         // }
     }
-    public void OnEnable()
+    public void Start()
     {
         //PlayerPrefs.DeleteAll();
         //loginpanel.SetActive(false);

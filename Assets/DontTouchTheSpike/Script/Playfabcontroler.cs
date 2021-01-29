@@ -36,10 +36,10 @@ public class Playfabcontroler : MonoBehaviour
         //PlayerPrefs.DeleteAll();
         //loginpanel.SetActive(false);
         //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
-        // if (string.IsNullOrEmpty(PlayFabSettings.TitleId))
-        // {
-        //     PlayFabSettings.TitleId = "4857B"; // Please change this value to your own titleId from PlayFab Game Manager
-        // }
+         if (string.IsNullOrEmpty(PlayFabSettings.TitleId))
+        {
+            PlayFabSettings.TitleId = "4857B"; // Please change this value to your own titleId from PlayFab Game Manager
+        }
         //PlayerPrefs.DeleteAll();
         // if (PlayerPrefs.HasKey("Email"))
         // {
@@ -186,6 +186,10 @@ public class Playfabcontroler : MonoBehaviour
     
     public void onLeaderboardget(GetLeaderboardResult result)
     {
+        foreach (Transform item in rawparent)
+        {
+            Destroy(item.gameObject);
+        }
         foreach (var item in result.Leaderboard)
         {
             GameObject newGo = Instantiate(rawprefab,rawparent); 

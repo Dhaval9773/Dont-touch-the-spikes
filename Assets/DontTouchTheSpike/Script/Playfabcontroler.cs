@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
@@ -11,6 +12,8 @@ public class Playfabcontroler : MonoBehaviour
     private string password;
     private string email;
     public GameObject loginbutton;
+
+    
 
     public void Start()
     {

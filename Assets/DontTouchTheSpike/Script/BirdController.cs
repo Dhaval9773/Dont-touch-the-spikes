@@ -24,7 +24,20 @@ public class BirdController : MonoBehaviour
     private ColourChange cc;
     private int limit = 10;
     private Playfabcontroler pc;
-    
+    private static Playfabcontroler instance { get;set; }
+
+    public void Awake()
+    {
+        if (instance==null)
+        {
+            instance = this.pc;
+            DontDestroyOnLoad(pc);
+        }
+        else
+        {
+            Destroy(pc);
+        }
+    }
     void Start()
     {
         ps.GetComponent<ParticleSystem>().Stop();

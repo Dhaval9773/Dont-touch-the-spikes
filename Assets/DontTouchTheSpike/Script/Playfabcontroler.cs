@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using PlayFab.MultiplayerModels;
 using TMPro;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 
@@ -14,8 +16,10 @@ public class Playfabcontroler : MonoBehaviour
     /*private string password;
     private string email;*/
     public GameObject loginbutton;
-    public GameObject rawprefab;
-    public Transform rawparent;
+    //public GameObject rawprefab;
+    //public Transform rawparent;
+    private string myId;
+    public PersistantData pd;
     
     public static Playfabcontroler instance { get;set; }
 
@@ -33,6 +37,7 @@ public class Playfabcontroler : MonoBehaviour
     }
     public void Start()
     {
+        pd = FindObjectOfType<PersistantData>();
         //PlayerPrefs.DeleteAll();
         //loginpanel.SetActive(false);
         //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
@@ -69,6 +74,9 @@ public class Playfabcontroler : MonoBehaviour
         {
             loginbutton.SetActive(false);
         }
+
+        myId = result.PlayFabId;
+        GetplayerData();
     }
 
     public void UpdateUsername()
@@ -79,6 +87,7 @@ public class Playfabcontroler : MonoBehaviour
             {
                 Debug.Log("username updateed.....");
                 PlayerPrefs.SetString("Username",username);
+               
             }, 
             error =>
             {
@@ -143,7 +152,7 @@ public class Playfabcontroler : MonoBehaviour
 
     #region STASTICS
 
-    public void SendLeaderboard(int score)
+    /*public void SendLeaderboard(int score)
     {
         var request = new UpdatePlayerStatisticsRequest
         {
@@ -200,6 +209,55 @@ public class Playfabcontroler : MonoBehaviour
             texts[2].text = item.StatValue.ToString();
 
         }
+    }*/
+    #endregion
+
+    #region PlayerData
+
+    public void GetplayerData()
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+        {
+            PlayFabId = myId,
+            Keys = null
+        },OnDatasuccess,
+            
+            error =>
+            {
+                Debug.Log(error.GenerateErrorReport());
+            });
+    }
+
+    public void OnDatasuccess(GetUserDataResult result)
+    {
+        if (result.Data==null || result.Data.ContainsKey("Skins"))
+        {
+            Debug.Log("skins not set");
+        }
+        else
+        {
+            pd.SkinstringTodata(result.Data["Skins"].Value);
+        }
+    }
+
+    public void Setuserdata(string skindata)
+    {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
+            {
+                Data = new Dictionary<string, string>()
+                {
+                    {"Skins",skindata}
+                }
+            },nameResult =>
+        {
+            Debug.Log("data updateed.....");
+           
+               
+        }, 
+        error =>
+        {
+            Debug.Log(error.GenerateErrorReport());
+        });
     }
     #endregion
 }

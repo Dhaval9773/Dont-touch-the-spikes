@@ -133,6 +133,6 @@ public class BirdController : MonoBehaviour
     {
         bird.SetActive(false);
         gameoverpanel.SetActive(true);
-        Playfabcontroler.instance.SendLeaderboard(rpg.score);
+        //Playfabcontroler.instance.SendLeaderboard(rpg.score);
     }
 }

@@ -35,7 +35,7 @@ public class MenuControler : MonoBehaviour
     {
         for (int i = 0; i < pd.allskin.Length; i++)
         {
-            buttonlocks[i].SetActive(!pd.allskin[i]);
+            buttonlocks[i].SetActive(pd.allskin[i]);
             unlockedbuttons[i].interactable = pd.allskin[i];
         }
     }

@@ -42,6 +42,7 @@ public class MenuControler : MonoBehaviour
 
     public void unlockskin(int index)
     {
+        Debug.Log(index+"index");
         pd.allskin[index] = true;
         pc.Setuserdata(pd.SkinDatatoString());
         SetupStore();

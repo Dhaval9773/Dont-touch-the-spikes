@@ -230,12 +230,20 @@ public class Playfabcontroler : MonoBehaviour
 
     public void OnDatasuccess(GetUserDataResult result)
     {
-        if (result.Data==null || result.Data.ContainsKey("Skins"))
+        foreach (var VARIABLE in result.Data)
+        {
+            print(VARIABLE.Key);
+            print(VARIABLE.Value.ToString());
+        }
+        Debug.Log(result.Data.Count);
+        if (result.Data==null || !result.Data.ContainsKey("Skins"))
         {
             Debug.Log("skins not set");
+            Debug.Log(result.Data);
         }
         else
         {
+            Debug.Log(result.Data);
             pd.SkinstringTodata(result.Data["Skins"].Value);
         }
     }
@@ -248,7 +256,8 @@ public class Playfabcontroler : MonoBehaviour
                 {
                     {"Skins",skindata}
                 }
-            },nameResult =>
+            },
+            onsuccess =>
         {
             Debug.Log("data updateed.....");
            

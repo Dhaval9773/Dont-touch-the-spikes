@@ -57,8 +57,5 @@ public class PersistantData : MonoBehaviour
         return tostring;
     }
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

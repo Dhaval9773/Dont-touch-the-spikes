@@ -19,7 +19,7 @@ public class Playfabcontroler : MonoBehaviour
     //public GameObject rawprefab;
     //public Transform rawparent;
     private string myId;
-    public PersistantData pd;
+    private PersistantData pd;
     
     public static Playfabcontroler instance { get;set; }
 

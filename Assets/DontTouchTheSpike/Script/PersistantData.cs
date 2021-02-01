@@ -8,7 +8,7 @@ public class PersistantData : MonoBehaviour
     public static PersistantData instance { get;set; }
     public bool[] allskin;
     public int myskin;
-    public MenuControler mc;
+    private MenuControler mc;
 
     private void Start()
     {

@@ -9,8 +9,8 @@ public class MenuControler : MonoBehaviour
     public static MenuControler instance { get;set; }
     public GameObject[] buttonlocks;
     public Button[] unlockedbuttons;
-    public PersistantData pd;
-    public Playfabcontroler pc;
+    private PersistantData pd;
+    private Playfabcontroler pc;
 
     public void Awake()
     {

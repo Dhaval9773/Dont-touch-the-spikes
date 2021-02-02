@@ -343,6 +343,7 @@ public class Playfabcontroler : MonoBehaviour
     }
     void OnAddCurrencyResult(ModifyUserVirtualCurrencyResult result)
     {
+        MenuControler.avilablebalance=Int32.Parse(result.Balance.ToString());
         currency.text = result.Balance.ToString();
     }
     void OnPlayFabError(PlayFabError _thisErrorResult)
@@ -352,15 +353,23 @@ public class Playfabcontroler : MonoBehaviour
     
     public void substractvirtualcurrency()
     {
+        if (MenuControler.avilablebalance<50)
+        {
+            Debug.Log("-------------------------------not eligible to purchase");
+        }
+        else
+        {
+            SubtractUserVirtualCurrencyRequest request = new SubtractUserVirtualCurrencyRequest();
+            request.VirtualCurrency = "CO"; //put your virtual currency code here
+            request.Amount = 50; //put the amount in here
         
-        SubtractUserVirtualCurrencyRequest request = new SubtractUserVirtualCurrencyRequest();
-        request.VirtualCurrency = "CO"; //put your virtual currency code here
-        request.Amount = 50; //put the amount in here
+            PlayFabClientAPI.SubtractUserVirtualCurrency(request, _OnAddCurrencyResult, _OnPlayFabError); 
+        }
         
-        PlayFabClientAPI.SubtractUserVirtualCurrency(request, _OnAddCurrencyResult, _OnPlayFabError);
     }
     void _OnAddCurrencyResult(ModifyUserVirtualCurrencyResult result)
     {
+        MenuControler.avilablebalance=Int32.Parse(result.Balance.ToString());
         currency.text = result.Balance.ToString();
         Debug.Log(result.ToJson());
     }

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using PlayFab.MultiplayerModels;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,7 @@ public class MenuControler : MonoBehaviour
     public Button[] unlockedbuttons;
     private PersistantData pd;
     private Playfabcontroler pc;
+    public static int avilablebalance;
 
     public void Awake()
     {
@@ -42,11 +45,19 @@ public class MenuControler : MonoBehaviour
 
     public void unlockskin(int index)
     {
-       
-        pd.allskin[index] = true;
-        Debug.Log(index+"index");
-        pc.Setuserdata(pd.SkinDatatoString());
-        SetupStore();
+        
+        if (avilablebalance<50)
+        {
+            Debug.Log("-------------------------------not eligible to purchase");
+        }
+        else
+        {
+            pd.allskin[index] = true;
+            Debug.Log(index+"index");
+            pc.Setuserdata(pd.SkinDatatoString());
+            SetupStore();
+        }
+        
     }
 
     public void setmyskin(int whichskin)

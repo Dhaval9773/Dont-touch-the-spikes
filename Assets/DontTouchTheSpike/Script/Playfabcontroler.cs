@@ -20,6 +20,8 @@ public class Playfabcontroler : MonoBehaviour
     //public Transform rawparent;
     private string myId;
     private PersistantData pd;
+    private BirdController bc;
+    public int myskin;
     
     public static Playfabcontroler instance { get;set; }
 
@@ -37,6 +39,7 @@ public class Playfabcontroler : MonoBehaviour
     }
     public void Start()
     {
+        bc = FindObjectOfType<BirdController>();
         pd = FindObjectOfType<PersistantData>();
         //PlayerPrefs.DeleteAll();
         //loginpanel.SetActive(false);
@@ -65,7 +68,7 @@ public class Playfabcontroler : MonoBehaviour
     #region LOGIN
     private void OnAndroidLoginSuccess(LoginResult result)
     {
-        Debug.Log("login success");
+       // Debug.Log("login success");
         if (!PlayerPrefs.HasKey("Username"))
         {
             loginbutton.SetActive(true);
@@ -85,13 +88,13 @@ public class Playfabcontroler : MonoBehaviour
         PlayFabClientAPI.UpdateUserTitleDisplayName(requestandroid,
             nameResult =>
             {
-                Debug.Log("username updateed.....");
+               // Debug.Log("username updateed.....");
                 PlayerPrefs.SetString("Username",username);
                
             }, 
             error =>
             {
-                Debug.Log(error.GenerateErrorReport());
+               // Debug.Log(error.GenerateErrorReport());
             });
     }
     private void OnAndroidLoginFailure(PlayFabError error)
@@ -224,27 +227,21 @@ public class Playfabcontroler : MonoBehaviour
             
             error =>
             {
-                Debug.Log(error.GenerateErrorReport());
+               // Debug.Log(error.GenerateErrorReport());
             });
     }
 
     public void OnDatasuccess(GetUserDataResult result)
     {
-        foreach (var VARIABLE in result.Data)
-        {
-            print(VARIABLE.Key);
-            print(VARIABLE.Value.ToString());
-        }
-        Debug.Log(result.Data.Count);
         if (result.Data==null || !result.Data.ContainsKey("Skins"))
         {
-            Debug.Log("skins not set");
-            Debug.Log(result.Data);
+           // Debug.Log("skins not set");
+           // Debug.Log(result.Data);
         }
         else
         {
-            Debug.Log(result.Data);
-            pd.SkinstringTodata(result.Data["Skins"].Value);
+           // Debug.Log(result.Data);
+            
         }
     }
 
@@ -259,14 +256,72 @@ public class Playfabcontroler : MonoBehaviour
             },
             onsuccess =>
         {
-            Debug.Log("data updateed.....");
+            //Debug.Log("data updateed.....");
            
                
         }, 
         error =>
         {
-            Debug.Log(error.GenerateErrorReport());
+           // Debug.Log(error.GenerateErrorReport());
         });
+        
+        
+    }
+    
+    public void GetMyskinData()
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+            {
+                PlayFabId = myId,
+                Keys = null
+            },OnSkinDatasuccess,
+            
+            error =>
+            {
+                // Debug.Log(error.GenerateErrorReport());
+            });
+    }
+
+    public void OnSkinDatasuccess(GetUserDataResult result)
+    {
+        /*foreach (var VARIABLE in result.Data)
+        {
+            //print(VARIABLE.Key);
+            //print(VARIABLE.Value.ToString());
+        }*/
+        // Debug.Log(result.Data.Count);
+        if (result.Data==null || !result.Data.ContainsKey("MySkin"))
+        {
+            // Debug.Log("skins not set");
+            // Debug.Log(result.Data);
+        }
+        else
+        {
+            
+        }
+    }
+
+    public void SetMyskindata(int skindata)
+    {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
+            {
+                Data = new Dictionary<string, string>()
+                {
+                    {"MySkin",skindata.ToString()}
+                }
+            },
+            onsuccess =>
+            {
+                //Debug.Log("data updateed.....");
+           
+               
+            }, 
+            error =>
+            {
+                // Debug.Log(error.GenerateErrorReport());
+            });
+        
+        
     }
     #endregion
 }

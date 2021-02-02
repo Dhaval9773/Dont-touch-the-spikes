@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class BirdController : MonoBehaviour
 {
@@ -23,7 +25,9 @@ public class BirdController : MonoBehaviour
     private float speed = 3.5f;
     private ColourChange cc;
     private int limit = 10;
-    //private Playfabcontroler pc;
+    private int skinno;
+    public Sprite[] skinset;
+    private Playfabcontroler pc;
     
     void Start()
     {
@@ -36,13 +40,14 @@ public class BirdController : MonoBehaviour
         bird.transform.position=new Vector3(0.03f,0.33f,-6.900815f);
         rb = GetComponent<Rigidbody2D>();
         rpg = FindObjectOfType<RandomSpikeGenerate>();
-        //pc= FindObjectOfType<Playfabcontroler>();
+        pc= FindObjectOfType<Playfabcontroler>();
         eg = FindObjectOfType<EggGenerate>();
         direction = false;
         bird.GetComponent<SpriteRenderer>().color=new Color(255,255,255,255);
         gameover = true;
         myenum = FindObjectOfType<Enumrator>();
         cc = FindObjectOfType<ColourChange>();
+        bird.GetComponent<SpriteRenderer>().sprite = skinset[skinno];
     }
 
     // Update is called once per frame

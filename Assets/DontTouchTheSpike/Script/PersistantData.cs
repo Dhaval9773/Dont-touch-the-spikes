@@ -45,7 +45,7 @@ public class PersistantData : MonoBehaviour
         string tostring = "";
         for (int i = 0; i < allskin.Length; i++)
         {
-            if (allskin[i]=true)
+            if (allskin[i]==true)
             {
                 tostring+="1";
             }
@@ -54,6 +54,7 @@ public class PersistantData : MonoBehaviour
                 tostring+="0";
             }
         }
+        Debug.Log(tostring);
         return tostring;
     }
     // Update is called once per frame

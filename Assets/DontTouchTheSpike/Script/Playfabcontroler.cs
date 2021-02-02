@@ -22,6 +22,10 @@ public class Playfabcontroler : MonoBehaviour
     private PersistantData pd;
     private BirdController bc;
     public int myskin;
+    public static int myskindata;
+    public static int addcurrency;
+    public TMP_Text currency;
+    
     
     public static Playfabcontroler instance { get;set; }
 
@@ -37,8 +41,10 @@ public class Playfabcontroler : MonoBehaviour
         //     Destroy(this.gameObject);
         // }
     }
+    
     public void Start()
     {
+        
         bc = FindObjectOfType<BirdController>();
         pd = FindObjectOfType<PersistantData>();
         //PlayerPrefs.DeleteAll();
@@ -80,6 +86,8 @@ public class Playfabcontroler : MonoBehaviour
 
         myId = result.PlayFabId;
         GetplayerData();
+        GetMyskinData();
+        addvirtualcurrency();
     }
 
     public void UpdateUsername()
@@ -241,7 +249,7 @@ public class Playfabcontroler : MonoBehaviour
         else
         {
            // Debug.Log(result.Data);
-            
+            pd.SkinstringTodata(result.Data["Skins"].Value);
         }
     }
 
@@ -284,12 +292,6 @@ public class Playfabcontroler : MonoBehaviour
 
     public void OnSkinDatasuccess(GetUserDataResult result)
     {
-        /*foreach (var VARIABLE in result.Data)
-        {
-            //print(VARIABLE.Key);
-            //print(VARIABLE.Value.ToString());
-        }*/
-        // Debug.Log(result.Data.Count);
         if (result.Data==null || !result.Data.ContainsKey("MySkin"))
         {
             // Debug.Log("skins not set");
@@ -297,7 +299,9 @@ public class Playfabcontroler : MonoBehaviour
         }
         else
         {
-            
+            myskindata=Int32.Parse(result.Data["MySkin"].Value);
+            print("Skin data is" + myskindata + "From Playfab controller");
+            pd.myskin=Int32.Parse(result.Data["MySkin"].Value);
         }
     }
 
@@ -313,7 +317,7 @@ public class Playfabcontroler : MonoBehaviour
             onsuccess =>
             {
                 //Debug.Log("data updateed.....");
-           
+           GetMyskinData();
                
             }, 
             error =>
@@ -323,5 +327,50 @@ public class Playfabcontroler : MonoBehaviour
         
         
     }
+    
+    #endregion
+
+    #region virtualcurrency
+
+    public void addvirtualcurrency()
+    {
+        
+        AddUserVirtualCurrencyRequest request = new AddUserVirtualCurrencyRequest();      
+        request.VirtualCurrency = "CO"; //put your virtual currency code here
+        request.Amount = addcurrency; //put the amount in here
+        
+        PlayFabClientAPI.AddUserVirtualCurrency(request, OnAddCurrencyResult, OnPlayFabError);
+    }
+    void OnAddCurrencyResult(ModifyUserVirtualCurrencyResult result)
+    {
+        currency.text = result.Balance.ToString();
+    }
+    void OnPlayFabError(PlayFabError _thisErrorResult)
+    {
+       
+    }
+    
+    public void substractvirtualcurrency()
+    {
+        
+        SubtractUserVirtualCurrencyRequest request = new SubtractUserVirtualCurrencyRequest();
+        request.VirtualCurrency = "CO"; //put your virtual currency code here
+        request.Amount = 50; //put the amount in here
+        
+        PlayFabClientAPI.SubtractUserVirtualCurrency(request, _OnAddCurrencyResult, _OnPlayFabError);
+    }
+    void _OnAddCurrencyResult(ModifyUserVirtualCurrencyResult result)
+    {
+        currency.text = result.Balance.ToString();
+        Debug.Log(result.ToJson());
+    }
+    void _OnPlayFabError(PlayFabError _thisErrorResult)
+    {
+       Debug.Log(_thisErrorResult.ErrorMessage);
+    }
+    
+
+    
+
     #endregion
 }

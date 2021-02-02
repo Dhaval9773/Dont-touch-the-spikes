@@ -25,9 +25,9 @@ public class BirdController : MonoBehaviour
     private float speed = 3.5f;
     private ColourChange cc;
     private int limit = 10;
-    private int skinno;
     public Sprite[] skinset;
     private Playfabcontroler pc;
+    
     
     void Start()
     {
@@ -47,7 +47,8 @@ public class BirdController : MonoBehaviour
         gameover = true;
         myenum = FindObjectOfType<Enumrator>();
         cc = FindObjectOfType<ColourChange>();
-        bird.GetComponent<SpriteRenderer>().sprite = skinset[skinno];
+        Debug.Log("-----------------"+Playfabcontroler.myskindata);
+        bird.GetComponent<SpriteRenderer>().sprite = skinset[Playfabcontroler.myskindata];
     }
 
     // Update is called once per frame
@@ -117,6 +118,7 @@ public class BirdController : MonoBehaviour
             rb.velocity=new Vector2(5,5);
             rb.rotation += 2;
             gameover = false;
+            Playfabcontroler.addcurrency=rpg.score;
             //pc.SendLeaderboard(rpg.score);
             Invoke("gameisover",1.5f);
         }

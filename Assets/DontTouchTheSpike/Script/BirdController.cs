@@ -27,6 +27,8 @@ public class BirdController : MonoBehaviour
     private int limit = 10;
     public Sprite[] skinset;
     private Playfabcontroler pc;
+    public ParticleSystem pts;
+    public Gradient[] gradient;
     
     
     void Start()
@@ -49,6 +51,8 @@ public class BirdController : MonoBehaviour
         cc = FindObjectOfType<ColourChange>();
         Debug.Log("-----------------"+Playfabcontroler.myskindata);
         bird.GetComponent<SpriteRenderer>().sprite = skinset[Playfabcontroler.myskindata];
+        var col = pts.colorOverLifetime;
+        col.color = gradient[Playfabcontroler.myskindata];
     }
 
     // Update is called once per frame
